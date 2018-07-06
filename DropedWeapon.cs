@@ -9,14 +9,13 @@ public class DropedWeapon : MonoBehaviour {
    
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
         player = GameObject.FindObjectOfType<PlayerController>();
 
-		
+    }
+
+    // Update is called once per frame
+    void Update () {
+     
 	}
 
     void OnTriggerStay2D(Collider2D col)
