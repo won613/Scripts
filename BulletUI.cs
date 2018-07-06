@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using UnityEngine.UI;
 
 public class BulletUI : MonoBehaviour
@@ -36,4 +37,18 @@ public class BulletUI : MonoBehaviour
 
     }
 
+=======
+
+public class BulletUI : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+>>>>>>> origin/master
 }

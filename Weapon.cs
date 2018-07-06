@@ -5,21 +5,52 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+<<<<<<< HEAD
     public bool isFiring;
     public BulletController bullet;
     public int BulletCount;
     public int staticBulletCount;
+=======
+
+    public bool isFiring;
+    public BulletController bullet;
+    public int BulletCount;
+>>>>>>> origin/master
 
     public float timeBetweenShots;
     private float shotCounter;
     public double reloadtime;
     private DateTime startreloadtime;
     private TimeSpan checkreloadtime;
+<<<<<<< HEAD
     private bool reloadcheck = false;
 
     public Transform firePoint;
 
     public PlayerController player;
+=======
+    //private float timecount;
+    private bool reloadcheck;
+
+    //private void discountreloadtime(float timecount)
+    //{
+    //    reloadtime -= timecount*Time.deltaTime;
+    //}
+
+    public Transform firePoint;
+
+
+    public PlayerController player;
+
+    void Start()
+    {
+        reloadcheck = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+>>>>>>> origin/master
 
     void Start()
     {
@@ -30,7 +61,8 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            isFiring = true;
+             isFiring = true;
+
 
 
         if (Input.GetMouseButtonUp(0))
@@ -49,6 +81,7 @@ public class Weapon : MonoBehaviour
             checkreloadtime = System.DateTime.Now - startreloadtime;
         }
 
+<<<<<<< HEAD
         if (reloadtime <= (checkreloadtime.TotalSeconds % 60) && reloadcheck)
         {
 
@@ -70,6 +103,23 @@ public class Weapon : MonoBehaviour
         }
 
         if (isFiring && BulletCount > 0 && !reloadcheck)
+=======
+        if (reloadtime <= (checkreloadtime.TotalSeconds%60)&&reloadcheck)
+        {
+            if (player.whatGun == 0)
+            {
+                BulletCount = 10;
+            }
+
+            if (player.whatGun == 1)
+            {
+                BulletCount = 30;
+            }
+            reloadcheck = false;
+        }
+
+        if (isFiring && BulletCount > 0)
+>>>>>>> origin/master
         {
             shotCounter -= Time.deltaTime;
             if (shotCounter <= 0)
@@ -90,6 +140,9 @@ public class Weapon : MonoBehaviour
 
     }
 }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/master
