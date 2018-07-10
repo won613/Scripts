@@ -34,7 +34,7 @@ public class Hatch : MonoBehaviour {
             {
                 if (Input.GetKey(KeyCode.E))
                 {
-                    timer -= Time.deltaTime*4f;
+                    timer -= Time.deltaTime;
                 }
 
             }

@@ -54,15 +54,17 @@ public class Enemy : MonoBehaviour {
         {
             if (playerIsUpperThanEnemy == 0 && player.transform.position.x > transform.position.x)
             {
-                myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
+				//   myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
+				transform.localScale = new Vector3(1f, 1f, 1f);
+				transform.position = Vector3.MoveTowards(transform.position, player.transform.position, activeMoveSpeed * Time.deltaTime);
+			}
 
             else if (playerIsUpperThanEnemy == 0 && player.transform.position.x < transform.position.x)
             {
-                myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-            }
+				// myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
+				transform.localScale = new Vector3(-1f, 1f, 1f);
+				transform.position = Vector3.MoveTowards(transform.position, player.transform.position, activeMoveSpeed * Time.deltaTime);
+			}
 
             else if (playerIsUpperThanEnemy == 1 && upstair.transform.position.x > transform.position.x)
             {
