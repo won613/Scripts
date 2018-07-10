@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class Weapon : MonoBehaviour
 {
 
@@ -18,10 +18,21 @@ public class Weapon : MonoBehaviour
     private TimeSpan checkreloadtime;
 
     private bool reloadcheck = false;
+=======
+public class Weapon : MonoBehaviour {
+
+    public bool isFiring;
+    public BulletController bullet;
+
+    public float timeBetweenShots;
+    private float shotCounter;
+>>>>>>> origin/master
 
     public Transform firePoint;
+   
 
     public PlayerController player;
+<<<<<<< HEAD
 
 
    
@@ -29,18 +40,20 @@ public class Weapon : MonoBehaviour
     {
         staticBulletCount = BulletCount;
     }
+=======
+    
+    
+	// Update is called once per frame
+	void Update () {
+>>>>>>> origin/master
 
-    // Update is called once per frame
-    void Update()
-    {
         if (Input.GetMouseButtonDown(0))
-             isFiring = true;
-
-
+            isFiring = true;
 
         if (Input.GetMouseButtonUp(0))
             isFiring = false;
 
+<<<<<<< HEAD
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -77,23 +90,30 @@ public class Weapon : MonoBehaviour
 
         if (isFiring && BulletCount > 0 && !reloadcheck)
 
+=======
+        if (isFiring)
+>>>>>>> origin/master
         {
             shotCounter -= Time.deltaTime;
-            if (shotCounter <= 0)
+            if(shotCounter <= 0)
             {
                 shotCounter = timeBetweenShots;
+                
                 Instantiate(bullet.transform, firePoint.transform.position, firePoint.rotation);
-                BulletCount--;
+                               
             }
-            if (BulletCount < 0)
-            {
-                BulletCount = 0;
-            }
-        }
-        else
+        } else
         {
             shotCounter = 0;
         }
 
+<<<<<<< HEAD
     }
+=======
+
+
+	}
+
+    
+>>>>>>> origin/master
 }
