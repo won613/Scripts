@@ -18,6 +18,31 @@ public class Enemy : MonoBehaviour {
     public Upstair upstair;
     public Downstair downstair;
     private int playerIsUpperThanEnemy;//0 = same 1 = playerUpper 2 = playerLower
+    public int enemy; // 0 = normal 1 = fast 2 = range 3 = tanker
+    public BulletController bullet;
+    public Transform rangefirepoint;
+
+    public void actzombie_range()
+    {
+        if (player.transform.position.x - transform.position.x < 5.0f || -(player.transform.position.x - transform.position.x) < 5.0f)
+        {
+            bullet.speed = 10f;
+            if (player.transform.position.x < transform.position.x)
+            {
+                Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
+           
+            }
+
+            if (player.transform.position.x > transform.position.x)
+            {
+
+                Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
+            
+            }
+
+
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -28,7 +53,7 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         player = GameObject.FindObjectOfType<PlayerController>();
         barricade1 = GameObject.Find("barricade1").GetComponent<Barricade>();
         barricade2 = GameObject.Find("barricade2").GetComponent<Barricade>();
@@ -56,36 +81,65 @@ public class Enemy : MonoBehaviour {
             {
                 myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(1f, 1f, 1f);
+                if(enemy==2)
+                {
+                    actzombie_range();
+              
+                }
             }
 
             else if (playerIsUpperThanEnemy == 0 && player.transform.position.x < transform.position.x)
             {
                 myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(-1f, 1f, 1f);
+                if (enemy == 2)
+                {
+                    actzombie_range();
+                   
+                }
             }
 
             else if (playerIsUpperThanEnemy == 1 && upstair.transform.position.x > transform.position.x)
             {
                 myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(1f, 1f, 1f);
+                if (enemy == 2)
+                {
+                    actzombie_range();
+                   
+                }
             }
 
             else if (playerIsUpperThanEnemy == 1 && upstair.transform.position.x < transform.position.x)
             {
                 myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(-1f, 1f, 1f);
+                if (enemy == 2)
+                {
+                    actzombie_range();
+                }
             }
 
             else if (playerIsUpperThanEnemy == 2 && downstair.transform.position.x > transform.position.x)
             {
                 myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(1f, 1f, 1f);
+                if (enemy == 2)
+                {
+                    actzombie_range();
+                   
+                }
             }
 
             else if (playerIsUpperThanEnemy == 2 && downstair.transform.position.x < transform.position.x)
             {
                 myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(-1f, 1f, 1f);
+                if (enemy == 2)
+                {
+                    actzombie_range();
+                    
+                }
             }
         }
 
@@ -203,5 +257,4 @@ public class Enemy : MonoBehaviour {
         yield return new WaitForSeconds(0.04f);
 
     }
-
 }
