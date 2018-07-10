@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+
 public class Weapon : MonoBehaviour
 {
+
 
 	public bool isFiring;
 	public BulletController bullet;
@@ -96,4 +98,5 @@ public class Weapon : MonoBehaviour
 		}
 
 	}
+
 }
