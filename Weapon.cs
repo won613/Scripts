@@ -5,144 +5,95 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-<<<<<<< HEAD
-    public bool isFiring;
-    public BulletController bullet;
-    public int BulletCount;
-    public int staticBulletCount;
-=======
 
-    public bool isFiring;
-    public BulletController bullet;
-    public int BulletCount;
->>>>>>> origin/master
+	public bool isFiring;
+	public BulletController bullet;
+	public int BulletCount;
+	public int staticBulletCount;
 
-    public float timeBetweenShots;
-    private float shotCounter;
-    public double reloadtime;
-    private DateTime startreloadtime;
-    private TimeSpan checkreloadtime;
-<<<<<<< HEAD
-    private bool reloadcheck = false;
+	public float timeBetweenShots;
+	private float shotCounter;
+	public double reloadtime;
+	private DateTime startreloadtime;
+	private TimeSpan checkreloadtime;
 
-    public Transform firePoint;
+	private bool reloadcheck = false;
 
-    public PlayerController player;
-=======
-    //private float timecount;
-    private bool reloadcheck;
+	public Transform firePoint;
 
-    //private void discountreloadtime(float timecount)
-    //{
-    //    reloadtime -= timecount*Time.deltaTime;
-    //}
-
-    public Transform firePoint;
-
-
-    public PlayerController player;
-
-    void Start()
-    {
-        reloadcheck = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
->>>>>>> origin/master
-
-    void Start()
-    {
-        staticBulletCount = BulletCount;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-             isFiring = true;
+	public PlayerController player;
 
 
 
-        if (Input.GetMouseButtonUp(0))
-            isFiring = false;
+	void Start()
+	{
+		staticBulletCount = BulletCount;
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+			isFiring = true;
 
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isFiring = false;
-            reloadcheck = true;
-            startreloadtime = System.DateTime.Now;
-        }
 
-        if (reloadcheck)
-        {
-            checkreloadtime = System.DateTime.Now - startreloadtime;
-        }
+		if (Input.GetMouseButtonUp(0))
+			isFiring = false;
 
-<<<<<<< HEAD
-        if (reloadtime <= (checkreloadtime.TotalSeconds % 60) && reloadcheck)
-        {
 
-            switch (player.whatGun)
-            {
-                case 0:
-                    BulletCount = 20;
-                    reloadcheck = false;
-                    break;
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			isFiring = false;
+			reloadcheck = true;
+			startreloadtime = System.DateTime.Now;
+		}
 
-                case 1:
-                    BulletCount = 100;
-                    reloadcheck = false;
-                    break;
-                default:
-                    break;
-            }
+		if (reloadcheck)
+		{
+			checkreloadtime = System.DateTime.Now - startreloadtime;
+		}
 
-        }
 
-        if (isFiring && BulletCount > 0 && !reloadcheck)
-=======
-        if (reloadtime <= (checkreloadtime.TotalSeconds%60)&&reloadcheck)
-        {
-            if (player.whatGun == 0)
-            {
-                BulletCount = 10;
-            }
+		if (reloadtime <= (checkreloadtime.TotalSeconds % 60) && reloadcheck)
+		{
 
-            if (player.whatGun == 1)
-            {
-                BulletCount = 30;
-            }
-            reloadcheck = false;
-        }
+			switch (player.whatGun)
+			{
+				case 0:
+					BulletCount = 20;
+					reloadcheck = false;
+					break;
 
-        if (isFiring && BulletCount > 0)
->>>>>>> origin/master
-        {
-            shotCounter -= Time.deltaTime;
-            if (shotCounter <= 0)
-            {
-                shotCounter = timeBetweenShots;
-                Instantiate(bullet.transform, firePoint.transform.position, firePoint.rotation);
-                BulletCount--;
-            }
-            if (BulletCount < 0)
-            {
-                BulletCount = 0;
-            }
-        }
-        else
-        {
-            shotCounter = 0;
-        }
+				case 1:
+					BulletCount = 100;
+					reloadcheck = false;
+					break;
+				default:
+					break;
+			}
 
-    }
+		}
+
+		if (isFiring && BulletCount > 0 && !reloadcheck)
+
+		{
+			shotCounter -= Time.deltaTime;
+			if (shotCounter <= 0)
+			{
+				shotCounter = timeBetweenShots;
+				Instantiate(bullet.transform, firePoint.transform.position, firePoint.rotation);
+				BulletCount--;
+			}
+			if (BulletCount < 0)
+			{
+				BulletCount = 0;
+			}
+		}
+		else
+		{
+			shotCounter = 0;
+		}
+
+	}
 }
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> origin/master
