@@ -6,30 +6,30 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
-
 	public bool isFiring;
 	public BulletController bullet;
 	public int BulletCount;
 	public int staticBulletCount;
+	private int fullBulletCount;
 
 	public float timeBetweenShots;
 	private float shotCounter;
-	public double reloadtime;
+	public float reloadtime;
 	private DateTime startreloadtime;
 	private TimeSpan checkreloadtime;
 
-	private bool reloadcheck = false;
+	private bool reloadcheck;
 
 	public Transform firePoint;
 
 	public PlayerController player;
-
-
+	
 
 	void Start()
 	{
 		staticBulletCount = BulletCount;
+		reloadcheck = false;
+		fullBulletCount = BulletCount;
 	}
 
 	// Update is called once per frame
@@ -46,9 +46,16 @@ public class Weapon : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			isFiring = false;
-			reloadcheck = true;
-			startreloadtime = System.DateTime.Now;
+			if (reloadcheck == false)
+			{
+				if (BulletCount != fullBulletCount)
+				{
+					isFiring = false;
+					reloadcheck = true;
+					startreloadtime = System.DateTime.Now;
+				}
+			}	
+						
 		}
 
 		if (reloadcheck)
@@ -56,6 +63,7 @@ public class Weapon : MonoBehaviour
 			checkreloadtime = System.DateTime.Now - startreloadtime;
 		}
 
+		
 
 		if (reloadtime <= (checkreloadtime.TotalSeconds % 60) && reloadcheck)
 		{
