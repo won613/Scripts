@@ -7,6 +7,7 @@ public class AttackTrigger : MonoBehaviour {
 	public float dmg;
 	void OnTriggerEnter2D(Collider2D col)
 	{
+
 		if (col.gameObject.tag == "Player")
 		{
 			Debug.Log("hit player");
@@ -17,6 +18,12 @@ public class AttackTrigger : MonoBehaviour {
 			col.SendMessage("ApplyDamage", dmg);
 		}
 
+	}
+
+		if (col.tag == "Player")
+		{
+			Debug.Log("hit player");
+		}
 	}
 
 }

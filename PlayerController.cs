@@ -1,44 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
 
-    public float moveSpeed;
-    private float activeMoveSpeed;
+	public float moveSpeed;
+	private float activeMoveSpeed;
 
-    public bool canMove;
+	public bool canMove;
 
-    public Rigidbody2D myRigidbody;
+	public Rigidbody2D myRigidbody;
 
-    public float jumpSpeed;
+	public float jumpSpeed;
 
-    public Transform groundCheck;
-    public float groundCheckRadius;
-    public LayerMask whatIsGround;
+	public Transform groundCheck;
+	public float groundCheckRadius;
+	public LayerMask whatIsGround;
 
-    public bool isGrounded;
+	public bool isGrounded;
 
-    //private Animator myAnim;
+	//private Animator myAnim;
 
-    public Vector3 respawnPosition;
+	public Vector3 respawnPosition;
 
-    public LevelManager theLevelManager;
+	public LevelManager theLevelManager;
 
-    public GameObject stompBox;
+	public GameObject stompBox;
 
-    public float knockbackForce;
-    public float knockbackLength;
-    private float knockbackCounter;
+	public float knockbackForce;
+	public float knockbackLength;
+	private float knockbackCounter;
 
-    public float invincibilityLength;
-    private float invincibilityCounter;
+	public float invincibilityLength;
+	private float invincibilityCounter;
 
-    public AudioSource jumpSound;
-    public AudioSource hurtSound;
+	public AudioSource jumpSound;
+	public AudioSource hurtSound;
 
-    private bool onPlatform;
-    public float onPlatformSpeedModifier;
+	private bool onPlatform;
+	public float onPlatformSpeedModifier;
 
     public GameObject pistol;
     public GameObject mp5;
@@ -64,222 +63,214 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         playerGraphics = transform.Find("Graphics");
-        if (playerGraphics == null)
+        if(playerGraphics == null)
         {
             Debug.LogError("There is no 'Graphics' object as a child of the player");
         }
     }
+    
+	// Use this for initialization
+	void Start () {
+		myRigidbody = GetComponent<Rigidbody2D>();
+		//myAnim = GetComponent<Animator>();
 
-    // Use this for initialization
-    void Start()
-    {
-        myRigidbody = GetComponent<Rigidbody2D>();
-        //myAnim = GetComponent<Animator>();
+		respawnPosition = transform.position;
 
-        respawnPosition = transform.position;
+		theLevelManager = FindObjectOfType<LevelManager>();
 
-        theLevelManager = FindObjectOfType<LevelManager>();
+		activeMoveSpeed = moveSpeed;
 
-        activeMoveSpeed = moveSpeed;
-
-        canMove = true;
+		canMove = true;
 
         takeUpstair = false;
         takeDownstair = false;
 
         rb = GetComponent<Rigidbody2D>();
         dashTime = startDashTime;
+	}
+	
+	// Update is called once per frame
+	void Update () {
 
+		isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-    }
+		if(knockbackCounter <= 0 && canMove)
+		{
 
-    // Update is called once per frame
-    void Update()
-    {
+			if(onPlatform)
+			{
+				activeMoveSpeed = moveSpeed * onPlatformSpeedModifier;
+			} else {
+				activeMoveSpeed = moveSpeed;
+			}
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
-        if (knockbackCounter <= 0 && canMove)
-        {
-
-            if (onPlatform)
-            {
-                activeMoveSpeed = moveSpeed * onPlatformSpeedModifier;
-            }
-            else
-            {
-                activeMoveSpeed = moveSpeed;
-            }
-
-            if (Input.GetAxisRaw("Horizontal") > 0f)
-            {
-                myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
-                playerGraphics.localScale = new Vector3(1f, 1f, 1f);
+			if(Input.GetAxisRaw ("Horizontal") > 0f)
+			{
+				myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
+				playerGraphics.localScale = new Vector3(1f,1f,1f);
                 walkDirection = 2;
-            }
-            else if (Input.GetAxisRaw("Horizontal") < 0f)
-            {
-                myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
+			} else if(Input.GetAxisRaw ("Horizontal") < 0f)
+			{
+				myRigidbody.velocity = new Vector3(-activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 playerGraphics.localScale = new Vector3(-1f, 1f, 1f);
                 walkDirection = 1;
-            }
-            else
+			} else {
+				myRigidbody.velocity = new Vector3(0f, myRigidbody.velocity.y, 0f);
+			}
+
+			if(Input.GetButtonDown ("Jump") && isGrounded)
+			{
+				myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, jumpSpeed, 0f);
+				jumpSound.Play();
+			}
+
+            if (whatGun == 0)
             {
-                myRigidbody.velocity = new Vector3(0f, myRigidbody.velocity.y, 0f);
+                pistol.SetActive(true);
+                mp5.SetActive(false);
+               
             }
-
-            if (Input.GetButtonDown("Jump") && isGrounded)
-            {
-                myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, jumpSpeed, 0f);
-                jumpSound.Play();
+                
+            if (whatGun == 1)
+            {                
+                mp5.SetActive(true);
+                pistol.SetActive(false);
+                
             }
-        }
+            
+				
+		}
 
-        if (whatGun == 0)
-        {
-            pistol.SetActive(true);
-        }
-
-        if (whatGun == 1)
-        {
-            mp5.SetActive(true);
-            pistol.SetActive(false);
-        }
-
-        if (takeUpstair == true)
+        if(takeUpstair == true)
         {
             transform.position = new Vector3(downstairPosition.transform.position.x, downstairPosition.transform.position.y, 0);
             takeUpstair = false;
         }
 
-        if (takeDownstair == true)
+        if(takeDownstair == true)
         {
             transform.position = new Vector3(upstairPosition.transform.position.x, upstairPosition.transform.position.y, 0);
             takeDownstair = false;
         }
 
-        if (knockbackCounter > 0)
-        {
-            knockbackCounter -= Time.deltaTime;
+		if(knockbackCounter > 0)
+		{
+			knockbackCounter -= Time.deltaTime;
 
-            if (transform.localScale.x > 0)
-            {
-                myRigidbody.velocity = new Vector3(-knockbackForce, knockbackForce, 0f);
-            }
-            else
-            {
-                myRigidbody.velocity = new Vector3(knockbackForce, knockbackForce, 0f);
-            }
-        }
+			if(transform.localScale.x > 0)
+			{
+				myRigidbody.velocity = new Vector3(-knockbackForce, knockbackForce, 0f);
+			} else {
+				myRigidbody.velocity = new Vector3(knockbackForce, knockbackForce, 0f);
+			}
+		}
 
-        if (invincibilityCounter > 0)
-        {
-            invincibilityCounter -= Time.deltaTime;
-        }
+		if(invincibilityCounter > 0)
+		{
+			invincibilityCounter -= Time.deltaTime;
+		}
 
-        if (invincibilityCounter <= 0)
-        {
-            theLevelManager.invincible = false;
-        }
+		if(invincibilityCounter <= 0)
+		{
+			theLevelManager.invincible = false;
+		}
 
-        //myAnim.SetFloat("Speed", Mathf.Abs( myRigidbody.velocity.x));
-        //myAnim.SetBool("Grounded", isGrounded);
+		//myAnim.SetFloat("Speed", Mathf.Abs( myRigidbody.velocity.x));
+		//myAnim.SetBool("Grounded", isGrounded);
 
-        if (myRigidbody.velocity.y < 0)
-        {
-            stompBox.SetActive(true);
-        }
-        else
-        {
-            stompBox.SetActive(false);
-        }
+		if(myRigidbody.velocity.y < 0)
+		{
+			stompBox.SetActive(true);
+		} else {
+			stompBox.SetActive(false);
+		}
 
         //////// D A S H /////////////////////////////////
-        if (direction == 0)
+        if(direction == 0)
         {
-            if (Input.GetMouseButtonDown(1))
+            if(Input.GetMouseButtonDown(1))
             {
-                if (walkDirection == 1)
+                if(walkDirection == 1)
                 {
                     direction = 1;
                 }
-                else if (walkDirection == 2)
+                else if(walkDirection == 2)
                 {
                     direction = 2;
                 }
-
+                
             }
-
+            
         }
         else
         {
-            if (dashTime <= 0)
+            if(dashTime <= 0)
             {
                 direction = 0;
                 dashTime = startDashTime;
                 rb.velocity = Vector2.zero;
-
+                
             }
             else
             {
                 dashTime -= Time.deltaTime;
 
-                if (direction == 1)
+                if(direction == 1)
                 {
                     rb.velocity = Vector2.left * dashSpeed;
-
+                    
                 }
                 if (direction == 2)
                 {
                     rb.velocity = Vector2.right * dashSpeed;
-
+                    
                 }
             }
         }
         ////////////////////D A S H/ /////////////////////////
 
-    }
+	}
 
-    public void Knockback()
-    {
-        knockbackCounter = knockbackLength;
-        invincibilityCounter = invincibilityLength;
-        theLevelManager.invincible = true;
-    }
+	public void Knockback()
+	{
+		knockbackCounter = knockbackLength;
+		invincibilityCounter = invincibilityLength;
+		theLevelManager.invincible = true;
+	}
 
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "KillPlane")
-        {
-            //gameObject.SetActive(false);
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if(other.tag == "KillPlane")
+		{
+			//gameObject.SetActive(false);
 
-            //transform.position = respawnPosition;
+			//transform.position = respawnPosition;
 
-            theLevelManager.Respawn();
-        }
+			theLevelManager.Respawn();
+		}
 
-        if (other.tag == "Checkpoint")
-        {
-            respawnPosition = other.transform.position;
-        }
-    }
+		if(other.tag == "Checkpoint")
+		{
+			respawnPosition = other.transform.position;
+		}
+	}
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "MovingPlatform")
-        {
-            transform.parent = other.transform;
-            onPlatform = true;
-        }
-    }
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if(other.gameObject.tag == "MovingPlatform")
+		{
+			transform.parent = other.transform;
+			onPlatform = true;
+		}
+	}
 
-    void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "MovingPlatform")
-        {
-            transform.parent = null;
-            onPlatform = false;
-        }
-    }
+	void OnCollisionExit2D(Collision2D other)
+	{
+		if(other.gameObject.tag == "MovingPlatform")
+		{
+			transform.parent = null;
+			onPlatform = false;
+		}
+	}
 }
