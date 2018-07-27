@@ -10,12 +10,12 @@ public class Hatch : MonoBehaviour
     public float timer;
     public Upstair upstair;
     public PlayerController player;
-   
+
 
     // Use this for initialization
     void Start()
     {
-      
+
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class Hatch : MonoBehaviour
             player.oxygenpoint = 100f;
             Destroy(gameObject);
         }
-       
+
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -41,7 +41,7 @@ public class Hatch : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                timer -= Time.deltaTime*0.5f;
+                timer -= Time.deltaTime * 0.5f;
             }
         }
     }

@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     public float refillStaminatime;
     private float startrefillStamina;
     private bool refillstaminaCheck;
-    
-    
+
+
     public bool canMove;
 
     public Rigidbody2D myRigidbody;
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         staticHp = hp;
         discountHP = (float)hp;
 
-		myRigidbody = GetComponent<Rigidbody2D>();
+        myRigidbody = GetComponent<Rigidbody2D>();
         //myAnim = GetComponent<Animator>();
 
         respawnPosition = transform.position;
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hp==0)
+        if (hp == 0)
         {
             Destroy(gameObject);
         }
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
         if (knockbackCounter <= 0 && canMove)
         {
-		
+
             if (onPlatform)
             {
                 activeMoveSpeed = moveSpeed * onPlatformSpeedModifier;
@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour
         {
             refillstaminaCheck = true;
             startrefillStamina += Time.deltaTime;
-            if (refillStaminatime <= startrefillStamina&& refillstaminaCheck)
+            if (refillStaminatime <= startrefillStamina && refillstaminaCheck)
             {
                 refillstaminaCheck = false;
                 startrefillStamina = 0;

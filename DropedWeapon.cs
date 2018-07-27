@@ -28,7 +28,7 @@ public class DropedWeapon : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if(kindofGun.randomGun==1)
+                if (kindofGun.randomGun == 1)
                 {
                     player.whatGun = 1;
                     Destroy(gameObject);

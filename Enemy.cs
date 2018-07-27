@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
     public PlayerController player;
     public Rigidbody2D myRigidbody;
@@ -30,14 +31,14 @@ public class Enemy : MonoBehaviour {
             //if (player.transform.position.x < transform.position.x)
             //{
             //    Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
-           
+
             //}
 
             //if (player.transform.position.x > transform.position.x)
             //{
 
             //    Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
-            
+
             //}
 
 
@@ -45,15 +46,17 @@ public class Enemy : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         myAnim = GetComponent<Animator>();
         breaking = false;
         playerIsUpperThanEnemy = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
+
+    // Update is called once per frame
+    void Update()
+    {
+
         player = GameObject.FindObjectOfType<PlayerController>();
         barricade1 = GameObject.Find("barricade1").GetComponent<Barricade>();
         barricade2 = GameObject.Find("barricade2").GetComponent<Barricade>();
@@ -81,10 +84,10 @@ public class Enemy : MonoBehaviour {
             {
                 myRigidbody.velocity = new Vector3(activeMoveSpeed, myRigidbody.velocity.y, 0f);
                 transform.localScale = new Vector3(1f, 1f, 1f);
-                if(enemy==2)
+                if (enemy == 2)
                 {
                     actzombie_range();
-              
+
                 }
             }
 
@@ -95,7 +98,7 @@ public class Enemy : MonoBehaviour {
                 if (enemy == 2)
                 {
                     actzombie_range();
-                   
+
                 }
             }
 
@@ -106,7 +109,7 @@ public class Enemy : MonoBehaviour {
                 if (enemy == 2)
                 {
                     actzombie_range();
-                   
+
                 }
             }
 
@@ -127,7 +130,7 @@ public class Enemy : MonoBehaviour {
                 if (enemy == 2)
                 {
                     actzombie_range();
-                   
+
                 }
             }
 
@@ -138,12 +141,12 @@ public class Enemy : MonoBehaviour {
                 if (enemy == 2)
                 {
                     actzombie_range();
-                    
+
                 }
             }
         }
 
-        
+
         if (hp <= 0)
         {
             myAnim.SetBool("die", true);
@@ -153,7 +156,7 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-	}
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -164,10 +167,10 @@ public class Enemy : MonoBehaviour {
             StartCoroutine(HitEffect());
             Destroy(col.gameObject);
         }
-        
+
     }
 
-    
+
 
     void OnTriggerStay2D(Collider2D col)
     {
