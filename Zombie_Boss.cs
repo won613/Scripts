@@ -18,6 +18,10 @@ public class Zombie_Boss : MonoBehaviour {
 	public float shootCd;
 	public float meleeCd;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	//private bool isLeft;
 
 	private bool Attacking = false;
@@ -36,7 +40,13 @@ public class Zombie_Boss : MonoBehaviour {
 
 
 	void Start() {
+<<<<<<< HEAD
 		//isLeft = true;
+=======
+
+		//isLeft = true;
+
+>>>>>>> origin/master
 		shootCd = 1;
 		meleeCd = 1;
 		isMove = true;
@@ -51,6 +61,7 @@ public class Zombie_Boss : MonoBehaviour {
 		float between = Vector2.Distance(player.transform.position, transform.position);
 		if (transform.position.x > player.transform.position.x)
 		{// playe <---boss move
+<<<<<<< HEAD
 			//isLeft = true;
 			transform.localScale = new Vector2(1.3f, 1.8f);
 			attackTrigger.transform.localScale = new Vector2(1.0f,1.8f);
@@ -64,6 +75,24 @@ public class Zombie_Boss : MonoBehaviour {
 			attackTrigger2.transform.localScale = new Vector2(-1.0f, 1.8f);
 		}
 
+=======
+
+			transform.localScale = new Vector2(1.3f, 1.8f);
+		}
+		else
+		{//player -->boss move
+			transform.localScale = new Vector2(-1.3f, 1.8f);
+
+			//isLeft = true;
+
+
+
+			transform.localScale = new Vector2(1.3f, 1.8f);
+			attackTrigger.transform.localScale = new Vector2(1.0f,1.8f);
+			attackTrigger2.transform.localScale = new Vector2(1.0f, 1.8f);
+		}
+		
+>>>>>>> origin/master
 		if (isMove&&!Attacking&&!Shooting)
 		{
 			Move();

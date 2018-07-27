@@ -6,7 +6,10 @@ public class Zombie_Boss_ArmShoot : MonoBehaviour {
 	public float destroytime;
 	// Use this for initialization
 	void Start () {
+<<<<<<< HEAD
 		Debug.Log("hi");
+=======
+>>>>>>> origin/master
 		Destroy(this.gameObject, destroytime);
 	}
 	

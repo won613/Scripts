@@ -20,8 +20,12 @@ public class ZombieNormal : MonoBehaviour {
 	public float condition;
 	private float distance;
 	public Collider2D attackTrigger;
+<<<<<<< HEAD
 	//private Transform target;
 	private Vector2 Target;
+=======
+	private Transform target;
+>>>>>>> origin/master
 	private Animator myAnim;
 	private int playerIsUpperThanEnemy;
 	private bool IsLeft;
@@ -47,8 +51,15 @@ public class ZombieNormal : MonoBehaviour {
 		MonsterScale = Random.Range(-0.1f, 0.5f);
 		attackTrigger.enabled = false;
 		braking = false;
+<<<<<<< HEAD
 		Target = new Vector2(1f, 1f);
 
+=======
+		if (target == null)
+		{
+			Debug.Log("no target");
+		}
+>>>>>>> origin/master
 		//Debug.Log(target.transform.position);
 
 	}
@@ -64,12 +75,20 @@ public class ZombieNormal : MonoBehaviour {
 		CheckCondition();
 		MeleeAttack();
 		MoveToTarget();
+<<<<<<< HEAD
 		Debug.DrawLine(transform.position, Target);
 		//Debug.Log(IsAttacking);
 	}
 	void FindPlayer()
 	{
 		player = FindObjectOfType<PlayerController>();
+=======
+		Debug.DrawLine(transform.position, target.position);
+		Debug.Log(IsAttacking);
+	}
+	void FindPlayer()
+	{
+>>>>>>> origin/master
 		if (player.transform.position.y > transform.position.y + 2f)
 		{
 			// Player is up floor than Monster
@@ -90,6 +109,7 @@ public class ZombieNormal : MonoBehaviour {
 	{
 		if (!braking)
 		{
+<<<<<<< HEAD
 			if (playerIsUpperThanEnemy == 1)
 			{
 				Target = player.transform.position;
@@ -103,10 +123,33 @@ public class ZombieNormal : MonoBehaviour {
 			{
 				//Debug.Log("???");
 				Target = new Vector2(-5.7f, transform.position.y);
+=======
+			Debug.Log("not meet barri");
+			if (playerIsUpperThanEnemy == 1)
+			{
+				player = GameObject.FindObjectOfType<PlayerController>();
+				target = player.transform;
+				if (target == null)
+					Debug.Log("nooob target");
+				distance = Vector2.Distance(target.transform.position, transform.position);
+			}
+			else if (playerIsUpperThanEnemy == 2)
+			{
+				target.position = new Vector2(5.5f, transform.position.y);
+			}
+			else if (playerIsUpperThanEnemy == 0)
+			{
+				target.position = new Vector2(-5.7f, transform.position.y);
+>>>>>>> origin/master
 			}
 		}
 		else
 		{
+<<<<<<< HEAD
+=======
+			//Debug.Log(attackCd);
+
+>>>>>>> origin/master
 			IsAttacking = true;
 		}
 	}
@@ -115,17 +158,29 @@ public class ZombieNormal : MonoBehaviour {
 	{
 		if (IsMove && !IsAttacking)
 		{
+<<<<<<< HEAD
 			if (Target.x > transform.position.x)
 			{
 				//transform.localScale = new Vector3(1f, 1f, 1f);
 				IsLeft = true;
 				transform.position = Vector2.MoveTowards(transform.position, Target, activeMoveSpeed * Time.deltaTime);
+=======
+			if (target.position.x > transform.position.x)
+			{
+				//transform.localScale = new Vector3(1f, 1f, 1f);
+				IsLeft = true;
+				transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+>>>>>>> origin/master
 			}
 			else
 			{
 				//transform.localScale = new Vector3(-1f, 1f, 1f);
 				IsLeft = false;
+<<<<<<< HEAD
 				transform.position = Vector2.MoveTowards(transform.position, Target, activeMoveSpeed * Time.deltaTime);
+=======
+				transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+>>>>>>> origin/master
 			}
 		}
 	}
@@ -158,7 +213,13 @@ public class ZombieNormal : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "barricade1")
 		{
+<<<<<<< HEAD
 			//Debug.Log("meet barricade1");
+=======
+			//braking = true;
+			//IsMove = false;
+			Debug.Log("meet barricade1");
+>>>>>>> origin/master
 			if (col.gameObject.GetComponent<Barricade>().broken)
 			{
 				braking = false;
@@ -168,6 +229,10 @@ public class ZombieNormal : MonoBehaviour {
 			{
 				braking = true;
 				IsMove = false;
+<<<<<<< HEAD
+=======
+				Debug.Log("meet barricade1");
+>>>>>>> origin/master
 			}
 
 		}
@@ -183,9 +248,28 @@ public class ZombieNormal : MonoBehaviour {
 			StartCoroutine(HitEffect());
 			Destroy(col.gameObject);
 		}
+<<<<<<< HEAD
 
 	}
 
+=======
+		if (col.gameObject.tag == "barricade1")
+		{
+			braking = true;
+			IsMove = false;
+			Debug.Log("meet barricade1");
+
+		}
+
+	}
+	public void SetToTargetBraking(Collider2D col)
+	{
+		Debug.Log("set to breaking");
+		//Collider2D col = Physics2D.OverlapCircle(transform.position, 2.0f);
+		target.position = col.transform.position;
+
+	}
+>>>>>>> origin/master
 
 	public void MeleeAttack()
 	{
@@ -213,8 +297,14 @@ public class ZombieNormal : MonoBehaviour {
 					{
 						IsMove = true;
 						IsAttacking = false;
+<<<<<<< HEAD
 					}  
 				}
+=======
+					}   // Debug.Log("attack end");
+				}
+				// Debug.Log("melee attack end");
+>>>>>>> origin/master
 			}
 		}
 	}
@@ -245,6 +335,10 @@ public class ZombieNormal : MonoBehaviour {
 	}
 	public void flip()
 	{
+<<<<<<< HEAD
+=======
+		//braking = true;
+>>>>>>> origin/master
 		if (IsLeft)
 			transform.localScale = new Vector3(1f + MonsterScale, 1f + MonsterScale, 1f);
 		else

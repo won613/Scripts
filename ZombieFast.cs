@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieFast : MonoBehaviour {
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
 	public PlayerController player;
 	public float activeMoveSpeed;
 	public float hp;
@@ -14,32 +19,45 @@ public class ZombieFast : MonoBehaviour {
 	public float getdelay;
 	public float getCd;
 
+<<<<<<< HEAD
 	private float dashdelay;
 	private float dashCd;
 	public float getdashdelay;
 	public float getdashCd;
 	public float dashpower;
 
+=======
+>>>>>>> origin/master
 
 	public float condition;
 	private float distance;
 	public Collider2D attackTrigger;
+<<<<<<< HEAD
 	private Vector2 Target;
+=======
+	private Transform target;
+>>>>>>> origin/master
 	private Animator myAnim;
 	private int playerIsUpperThanEnemy;
 	private bool IsLeft;
 	private bool IsMove;
 	private bool IsAttacking;
+<<<<<<< HEAD
 
 	private bool braking;
 	private float timer;
 	private Rigidbody2D rb;
+=======
+	private bool braking;
+	private float timer;
+>>>>>>> origin/master
 
 	private float MonsterScale;
 
 	// Use this for initialization
 	void Start()
 	{
+<<<<<<< HEAD
 		rb = GetComponent<Rigidbody2D>();
 		myAnim = GetComponent<Animator>();
 		playerIsUpperThanEnemy = 1;
@@ -53,11 +71,28 @@ public class ZombieFast : MonoBehaviour {
 		attackCd = 0.0f;
 		dashdelay = getdashdelay;
 		dashCd = 0.0f;
+=======
+		myAnim = GetComponent<Animator>();
+		playerIsUpperThanEnemy = 1;
+		IsLeft = true;
+		IsMove = true;
+		IsAttacking = false;
+		attackdelay = getdelay;
+		attackCd = 0.0f;
+>>>>>>> origin/master
 		distance = 10;
 		timer = 0.3f;
 		MonsterScale = Random.Range(-0.1f, 0.5f);
 		attackTrigger.enabled = false;
+<<<<<<< HEAD
 		Target = new Vector2(1f, 1f);
+=======
+		braking = false;
+		if (target == null)
+		{
+			Debug.Log("no target");
+		}
+>>>>>>> origin/master
 		//Debug.Log(target.transform.position);
 
 	}
@@ -71,6 +106,7 @@ public class ZombieFast : MonoBehaviour {
 		SetToTarget();
 		flip();
 		CheckCondition();
+<<<<<<< HEAD
 		if (braking)
 			MeleeAttack();
 		else
@@ -81,6 +117,12 @@ public class ZombieFast : MonoBehaviour {
 		Debug.Log(IsAttacking);
 		Debug.Log(IsMove);
 		Debug.Log(attackOrder);*/
+=======
+		MeleeAttack();
+		MoveToTarget();
+		Debug.DrawLine(transform.position, target.position);
+		Debug.Log(IsAttacking);
+>>>>>>> origin/master
 	}
 	void FindPlayer()
 	{
@@ -102,6 +144,7 @@ public class ZombieFast : MonoBehaviour {
 	}
 	void SetToTarget()
 	{
+<<<<<<< HEAD
 		if (!braking) // 부수지 않는중이면 타겟 설정
 		{
 			if (playerIsUpperThanEnemy == 1)
@@ -116,15 +159,41 @@ public class ZombieFast : MonoBehaviour {
 			else if (playerIsUpperThanEnemy == 0)
 			{
 				Target = new Vector2(-5.7f, transform.position.y);
+=======
+		if (!braking)
+		{
+			Debug.Log("not meet barri");
+			if (playerIsUpperThanEnemy == 1)
+			{
+				player = GameObject.FindObjectOfType<PlayerController>();
+				target = player.transform;
+				if (target == null)
+					Debug.Log("nooob target");
+				distance = Vector2.Distance(target.transform.position, transform.position);
+			}
+			else if (playerIsUpperThanEnemy == 2)
+			{
+				target.position = new Vector2(5.5f, transform.position.y);
+			}
+			else if (playerIsUpperThanEnemy == 0)
+			{
+				target.position = new Vector2(-5.7f, transform.position.y);
+>>>>>>> origin/master
 			}
 		}
 		else
 		{
+<<<<<<< HEAD
 			//부수는 중이면 공격on 나머지 off
 			IsAttacking = true;
 			IsMove = false;
 			distance = Vector2.Distance(Target, transform.position);
 
+=======
+			//Debug.Log(attackCd);
+
+			IsAttacking = true;
+>>>>>>> origin/master
 		}
 	}
 
@@ -132,17 +201,29 @@ public class ZombieFast : MonoBehaviour {
 	{
 		if (IsMove && !IsAttacking)
 		{
+<<<<<<< HEAD
 			if (Target.x > transform.position.x)
 			{
 				//transform.localScale = new Vector3(1f, 1f, 1f);
 				IsLeft = true;
 				transform.position = Vector2.MoveTowards(transform.position, Target, activeMoveSpeed * Time.deltaTime);
+=======
+			if (target.position.x > transform.position.x)
+			{
+				//transform.localScale = new Vector3(1f, 1f, 1f);
+				IsLeft = true;
+				transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+>>>>>>> origin/master
 			}
 			else
 			{
 				//transform.localScale = new Vector3(-1f, 1f, 1f);
 				IsLeft = false;
+<<<<<<< HEAD
 				transform.position = Vector2.MoveTowards(transform.position, Target, activeMoveSpeed * Time.deltaTime);
+=======
+				transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+>>>>>>> origin/master
 			}
 		}
 	}
@@ -175,6 +256,7 @@ public class ZombieFast : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "barricade1")
 		{
+<<<<<<< HEAD
 			if (!col.gameObject.GetComponent<Barricade>().broken)
 			{
 			
@@ -193,6 +275,23 @@ public class ZombieFast : MonoBehaviour {
 			}
 			
 			
+=======
+			//braking = true;
+			//IsMove = false;
+			Debug.Log("meet barricade1");
+			if (col.gameObject.GetComponent<Barricade>().broken)
+			{
+				braking = false;
+				IsMove = true;
+			}
+			else
+			{
+				braking = true;
+				IsMove = false;
+				Debug.Log("meet barricade1");
+			}
+
+>>>>>>> origin/master
 		}
 
 	}
@@ -206,6 +305,7 @@ public class ZombieFast : MonoBehaviour {
 			StartCoroutine(HitEffect());
 			Destroy(col.gameObject);
 		}
+<<<<<<< HEAD
 	}
 	void OnTriggerExit2D(Collider2D col)
 	{
@@ -220,11 +320,32 @@ public class ZombieFast : MonoBehaviour {
 				braking = false;
 			}
 		}
+=======
+		if (col.gameObject.tag == "barricade1")
+		{
+			braking = true;
+			IsMove = false;
+			Debug.Log("meet barricade1");
+
+		}
+
+	}
+	public void SetToTargetBraking(Collider2D col)
+	{
+		Debug.Log("set to breaking");
+		//Collider2D col = Physics2D.OverlapCircle(transform.position, 2.0f);
+		target.position = col.transform.position;
+
+>>>>>>> origin/master
 	}
 
 	public void MeleeAttack()
 	{
+<<<<<<< HEAD
 		if (IsAttacking&&attackCd < 0)
+=======
+		if (IsAttacking && attackCd < 0)
+>>>>>>> origin/master
 		{
 			if (attackdelay > 0)
 			{
@@ -233,7 +354,10 @@ public class ZombieFast : MonoBehaviour {
 			}
 			else
 			{
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 				attackTrigger.enabled = true;
 				if (timer > 0)
 				{
@@ -249,6 +373,7 @@ public class ZombieFast : MonoBehaviour {
 					{
 						IsMove = true;
 						IsAttacking = false;
+<<<<<<< HEAD
 					}
 				}
 			}
@@ -297,14 +422,31 @@ public class ZombieFast : MonoBehaviour {
 			attackCd -= Time.deltaTime;
 			dashCd -= Time.deltaTime;
 			IsAttacking = false;
+=======
+					}   // Debug.Log("attack end");
+				}
+				// Debug.Log("melee attack end");
+			}
+		}
+	}
+	public void CheckCondition()
+	{
+		if (attackCd >= 0)
+		{
+			attackCd -= Time.deltaTime;
+>>>>>>> origin/master
 		}
 		else
 		{
 			if (condition > distance)
+<<<<<<< HEAD
 			{
 				//Debug.Log("attack ok?");
 				IsAttacking = true;
 			}
+=======
+				IsAttacking = true;
+>>>>>>> origin/master
 		}
 	}
 	public void DieCheck()
@@ -340,5 +482,8 @@ public class ZombieFast : MonoBehaviour {
 		yield return new WaitForSeconds(0.04f);
 
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 }

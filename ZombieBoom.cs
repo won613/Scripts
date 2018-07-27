@@ -21,8 +21,13 @@ public class ZombieBoom : MonoBehaviour {
     private float distance;
     public Collider2D attackTrigger;
     public GameObject boomTrigger;
+<<<<<<< HEAD
 	private Vector2 Target;
    // private Animator myAnim;
+=======
+    private Transform target;
+    private Animator myAnim;
+>>>>>>> origin/master
     private int playerIsUpperThanEnemy;
     private bool IsLeft;
     private bool IsMove;
@@ -35,7 +40,11 @@ public class ZombieBoom : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+<<<<<<< HEAD
         //myAnim = GetComponent<Animator>();
+=======
+        myAnim = GetComponent<Animator>();
+>>>>>>> origin/master
         playerIsUpperThanEnemy = 1;
         IsLeft = true;
         IsMove = true;
@@ -47,7 +56,14 @@ public class ZombieBoom : MonoBehaviour {
         MonsterScale = Random.Range(-0.1f, 0.5f);
 		attackTrigger.enabled = false;
 		braking = false;
+<<<<<<< HEAD
 		Target = new Vector2(1f, 1f);
+=======
+		if (target==null)
+		{
+			Debug.Log("no target");
+		}
+>>>>>>> origin/master
 		//Debug.Log(target.transform.position);
 
 	}
@@ -62,13 +78,21 @@ public class ZombieBoom : MonoBehaviour {
         CheckCondition();
         MeleeAttack();
         MoveToTarget();
+<<<<<<< HEAD
 		Debug.DrawLine(transform.position, Target);
+=======
+		Debug.DrawLine(transform.position, target.position);
+>>>>>>> origin/master
 		Debug.Log(IsAttacking);
     }
     void FindPlayer()
     {
+<<<<<<< HEAD
 		player = FindObjectOfType<PlayerController>();
 		if (player.transform.position.y > transform.position.y + 2f)
+=======
+        if (player.transform.position.y > transform.position.y + 2f)
+>>>>>>> origin/master
         {
             // Player is up floor than Monster
             playerIsUpperThanEnemy = 2;
@@ -91,6 +115,7 @@ public class ZombieBoom : MonoBehaviour {
 			Debug.Log("not meet barri");
 			if (playerIsUpperThanEnemy == 1)
 			{
+<<<<<<< HEAD
 				Target = player.transform.position;
 				distance = Vector2.Distance(Target, transform.position);
 			}
@@ -105,6 +130,27 @@ public class ZombieBoom : MonoBehaviour {
 		}
 		else
 		{	
+=======
+				player = GameObject.FindObjectOfType<PlayerController>();
+				target = player.transform;
+				if (target == null)
+					Debug.Log("nooob target");
+				distance = Vector2.Distance(target.transform.position, transform.position);
+			}
+			else if (playerIsUpperThanEnemy == 2)
+			{
+				target.position = new Vector2(5.5f, transform.position.y);
+			}
+			else if (playerIsUpperThanEnemy == 0)
+			{
+				target.position = new Vector2(-5.7f, transform.position.y);
+			}
+		}
+		else
+		{
+			//Debug.Log(attackCd);
+			
+>>>>>>> origin/master
 			IsAttacking = true;
 		}
     }
@@ -113,6 +159,7 @@ public class ZombieBoom : MonoBehaviour {
     {
         if (IsMove && !IsAttacking)
         {
+<<<<<<< HEAD
             if (Target.x > transform.position.x)
             {
                 IsLeft = true;
@@ -122,6 +169,19 @@ public class ZombieBoom : MonoBehaviour {
             {
                 IsLeft = false;
                 transform.position = Vector2.MoveTowards(transform.position, Target, activeMoveSpeed * Time.deltaTime);
+=======
+            if (target.position.x > transform.position.x)
+            {
+                //transform.localScale = new Vector3(1f, 1f, 1f);
+                IsLeft = true;
+                transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                //transform.localScale = new Vector3(-1f, 1f, 1f);
+                IsLeft = false;
+                transform.position = Vector2.MoveTowards(transform.position, target.transform.position, activeMoveSpeed * Time.deltaTime);
+>>>>>>> origin/master
             }
         }
     }
@@ -154,6 +214,11 @@ public class ZombieBoom : MonoBehaviour {
         }
 		if (col.gameObject.tag == "barricade1")
 		{
+<<<<<<< HEAD
+=======
+			//braking = true;
+			//IsMove = false;
+>>>>>>> origin/master
 			Debug.Log("meet barricade1");
 			if (col.gameObject.GetComponent<Barricade>().broken)
 			{
@@ -164,6 +229,10 @@ public class ZombieBoom : MonoBehaviour {
 			{
 				braking = true;
 				IsMove = false;
+<<<<<<< HEAD
+=======
+				Debug.Log("meet barricade1");
+>>>>>>> origin/master
 			}
 		
 		}
@@ -188,8 +257,24 @@ public class ZombieBoom : MonoBehaviour {
 		}
 
 	}
+<<<<<<< HEAD
 
 
+=======
+	public void SetToTargetBraking(Collider2D col)
+	{
+		Debug.Log("set to breaking");
+			//Collider2D col = Physics2D.OverlapCircle(transform.position, 2.0f);
+			target.position = col.transform.position;
+
+	}
+	public void brakingSometing()
+	{
+		braking = false;
+		IsMove = true;
+		distance = 10f;
+	}
+>>>>>>> origin/master
     public void MeleeAttack()
     {
         if (IsAttacking&&attackCd<0)
@@ -218,8 +303,14 @@ public class ZombieBoom : MonoBehaviour {
 					{
 						IsMove = true;
 						IsAttacking = false;
+<<<<<<< HEAD
 					}	
 					}
+=======
+					}	// Debug.Log("attack end");
+					}
+					// Debug.Log("melee attack end");
+>>>>>>> origin/master
 				}
         }
     }
@@ -247,6 +338,10 @@ public class ZombieBoom : MonoBehaviour {
     }
     public void flip()
     {
+<<<<<<< HEAD
+=======
+		//braking = true;
+>>>>>>> origin/master
         if (IsLeft)
             transform.localScale = new Vector3(1f + MonsterScale, 1f + MonsterScale, 1f);
         else
