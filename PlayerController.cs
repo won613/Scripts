@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
@@ -6,7 +7,23 @@ public class PlayerController : MonoBehaviour
 
     public float moveSpeed;
     private float activeMoveSpeed;
-
+    //체력
+    public int hp;
+    private float discountHP;
+    public int staticHp;
+    public Image hpGage;
+    //산소
+    public float oxygenpoint;
+    public Image oxygenGage;
+    //스테미너
+    public float stamina;
+    public Image staminaGage;
+    private bool staminaCheck;
+    public float refillStaminatime;
+    private float startrefillStamina;
+    private bool refillstaminaCheck;
+    
+    
     public bool canMove;
 
     public Rigidbody2D myRigidbody;
@@ -42,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject pistol;
     public GameObject mp5;
+    public GameObject shotgun;
+    public GameObject grenade;
     public int whatGun;
 
     public Transform downstairPosition;
@@ -58,6 +77,7 @@ public class PlayerController : MonoBehaviour
     public float startDashTime;
     private int direction;
     private int walkDirection;
+    private bool dashCheck;
 
     ///////////////////////// </ D A S H >
 
@@ -73,7 +93,11 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();
+        //UI에 띄우기 위한 초기 hp값 대입
+        staticHp = hp;
+        discountHP = (float)hp;
+
+		myRigidbody = GetComponent<Rigidbody2D>();
         //myAnim = GetComponent<Animator>();
 
         respawnPosition = transform.position;
@@ -87,21 +111,27 @@ public class PlayerController : MonoBehaviour
         takeUpstair = false;
         takeDownstair = false;
 
+        direction = 0;
         rb = GetComponent<Rigidbody2D>();
         dashTime = startDashTime;
-
-
+        dashCheck = false;
+        staminaCheck = false;
+        refillstaminaCheck = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(hp==0)
+        {
+            Destroy(gameObject);
+        }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         if (knockbackCounter <= 0 && canMove)
         {
-
+		
             if (onPlatform)
             {
                 activeMoveSpeed = moveSpeed * onPlatformSpeedModifier;
@@ -144,6 +174,39 @@ public class PlayerController : MonoBehaviour
         {
             mp5.SetActive(true);
             pistol.SetActive(false);
+        }
+
+        if (whatGun == 2)
+        {
+            shotgun.SetActive(true);
+            pistol.SetActive(false);
+        }
+
+        if (whatGun == 3)
+        {
+            grenade.SetActive(true);
+            pistol.SetActive(false);
+        }
+
+        //산소 게이지
+        oxygenGage.fillAmount = oxygenpoint / 100;
+        oxygenpoint -= Time.deltaTime * 2f;
+
+        hpGage.fillAmount = discountHP / 100;
+
+        if (oxygenpoint < 0)
+        {
+            oxygenpoint = 0;
+        }
+
+        if (oxygenpoint == 0)
+        {
+            discountHP -= Time.deltaTime * 2f;
+            hp = (int)discountHP;
+            if (hp < 0)
+            {
+                hp = 0;
+            }
         }
 
         if (takeUpstair == true)
@@ -194,46 +257,85 @@ public class PlayerController : MonoBehaviour
             stompBox.SetActive(false);
         }
 
+        //구르기
         //////// D A S H /////////////////////////////////
-        if (direction == 0)
+        staminaGage.fillAmount = stamina / 5;
+        if (stamina > 0)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (direction == 0)
             {
-                if (walkDirection == 1)
+                if (Input.GetMouseButtonDown(1))
                 {
-                    direction = 1;
-                }
-                else if (walkDirection == 2)
-                {
-                    direction = 2;
+                    dashCheck = true;
+                    staminaCheck = true;
+                    if (dashCheck)
+                    {
+                        if (walkDirection == 1)
+                        {
+                            direction = 1;
+                        }
+                        else if (walkDirection == 2)
+                        {
+                            direction = 2;
+                        }
+                    }
+
                 }
 
-            }
-
-        }
-        else
-        {
-            if (dashTime <= 0)
-            {
-                direction = 0;
-                dashTime = startDashTime;
-                rb.velocity = Vector2.zero;
+                if (Input.GetMouseButtonUp(1))
+                {
+                    dashCheck = false;
+                }
 
             }
             else
             {
-                dashTime -= Time.deltaTime;
-
-                if (direction == 1)
+                if (dashTime <= 0)
                 {
-                    rb.velocity = Vector2.left * dashSpeed;
-
+                    direction = 0;
+                    dashTime = startDashTime;
+                    rb.velocity = Vector2.zero;
                 }
-                if (direction == 2)
+                else
                 {
-                    rb.velocity = Vector2.right * dashSpeed;
+                    dashTime -= Time.deltaTime;
 
+                    if (staminaCheck && direction == 1)
+                    {
+
+                        rb.velocity = Vector2.left * dashSpeed;
+                        stamina--;
+                        if (stamina < 0)
+                        {
+                            stamina = 0f;
+                        }
+                        staminaCheck = false;
+
+                    }
+
+                    else if (staminaCheck && direction == 2)
+                    {
+                        rb.velocity = Vector2.right * dashSpeed;
+                        stamina--;
+                        if (stamina < 0)
+                        {
+                            stamina = 0f;
+                        }
+                        staminaCheck = false;
+                    }
                 }
+            }
+        }
+
+        if (stamina < 5)
+        {
+            refillstaminaCheck = true;
+            startrefillStamina += Time.deltaTime;
+            if (refillStaminatime <= startrefillStamina&& refillstaminaCheck)
+            {
+                refillstaminaCheck = false;
+                startrefillStamina = 0;
+                stamina++;
             }
         }
         ////////////////////D A S H/ /////////////////////////

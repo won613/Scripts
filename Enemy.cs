@@ -27,18 +27,18 @@ public class Enemy : MonoBehaviour {
         if (player.transform.position.x - transform.position.x < 5.0f || -(player.transform.position.x - transform.position.x) < 5.0f)
         {
             bullet.speed = 10f;
-            if (player.transform.position.x < transform.position.x)
-            {
-                Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
+            //if (player.transform.position.x < transform.position.x)
+            //{
+            //    Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
            
-            }
+            //}
 
-            if (player.transform.position.x > transform.position.x)
-            {
+            //if (player.transform.position.x > transform.position.x)
+            //{
 
-                Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
+            //    Instantiate(bullet.transform, rangefirepoint.transform.position, rangefirepoint.rotation);
             
-            }
+            //}
 
 
         }

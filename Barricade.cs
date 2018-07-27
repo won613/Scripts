@@ -9,13 +9,13 @@ public class Barricade : MonoBehaviour {
     public float hp;
     private Animator myAnim;
     public bool broken;
-    Collider2D m_collider;
+    //Collider2D m_collider;
 
     // Use this for initialization
     void Start () {
         myAnim = GetComponent<Animator>();
         broken = false;
-        m_collider = GetComponent<Collider2D>();
+        //m_collider = GetComponent<Collider2D>();
     }
 	
 	// Update is called once per frame

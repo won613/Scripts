@@ -1,99 +1,100 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
 
-    public bool isFiring;
-    public BulletController bullet;
-    public int BulletCount;
-    public int staticBulletCount;
+	public bool isFiring;
+	public BulletController bullet;
+	public int BulletCount;
+	public int staticBulletCount;
 
-    public float timeBetweenShots;
-    private float shotCounter;
-    public double reloadtime;
-    private DateTime startreloadtime;
-    private TimeSpan checkreloadtime;
+	public CsvInfo weaponInfo;
 
-    private bool reloadcheck = false;
+	public float timeBetweenShots;
+	private float shotCounter;
+	public float reloadtime;
+	public float reloadStart;
 
-    public Transform firePoint;
+	public bool reloadcheck = false;
 
-    public PlayerController player;
+	public Transform firePoint;
+
+	public PlayerController player;
+
+	void Start()
+	{
+		reloadcheck = false;
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		if (player.whatGun == 0)
+		{
+			weaponInfo = GameObject.Find("pistol").GetComponent<CsvInfo>();
+			staticBulletCount = weaponInfo.bulletCount;
+			timeBetweenShots = weaponInfo.timeBetweenShots;
+			reloadtime = weaponInfo.reloadTime;
+		}
 
 
-   
-    void Start()
-    {
-        staticBulletCount = BulletCount;
-    }
+		if (player.whatGun == 1)
+		{
+			weaponInfo = GameObject.Find("mp5").GetComponent<CsvInfo>();
+			staticBulletCount = weaponInfo.bulletCount;
+			timeBetweenShots = weaponInfo.timeBetweenShots;
+			reloadtime = weaponInfo.reloadTime;
+		}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-             isFiring = true;
-
+		if (Input.GetMouseButtonDown(0))
+			isFiring = true;
 
 
-        if (Input.GetMouseButtonUp(0))
-            isFiring = false;
+
+		if (Input.GetMouseButtonUp(0))
+			isFiring = false;
 
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isFiring = false;
-            reloadcheck = true;
-            startreloadtime = System.DateTime.Now;
-        }
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			isFiring = false;
+			reloadcheck = true;
+		}
 
-        if (reloadcheck)
-        {
-            checkreloadtime = System.DateTime.Now - startreloadtime;
-        }
+		if (reloadcheck)
+		{
+			reloadStart += Time.deltaTime;
+		}
 
-        //reloadtime만큼 시간이 지나면 장전
-        if (reloadtime <= (checkreloadtime.TotalSeconds % 60) && reloadcheck)
-        {
+		//reloadtime만큼 시간이 지나면 장전
+		if (reloadtime <= reloadStart && reloadcheck)
+		{
+			BulletCount = weaponInfo.bulletCount;
+			reloadStart = 0;
+			reloadcheck = false;
+		}
 
-            switch (player.whatGun)
-            {
-                case 0:
-                    BulletCount = 20;
-                    reloadcheck = false;
-                    break;
+		if (isFiring && BulletCount > 0 && !reloadcheck)
 
-                case 1:
-                    BulletCount = 100;
-                    reloadcheck = false;
-                    break;
-                default:
-                    break;
-            }
+		{
+			shotCounter -= Time.deltaTime;
+			if (shotCounter <= 0)
+			{
+				shotCounter = timeBetweenShots;
+				Instantiate(bullet.transform, firePoint.transform.position, firePoint.rotation);
+				BulletCount--;
+			}
+			if (BulletCount < 0)
+			{
+				BulletCount = 0;
+			}
+		}
+		else
+		{
+			shotCounter = 0;
+		}
 
-        }
-
-        if (isFiring && BulletCount > 0 && !reloadcheck)
-
-        {
-            shotCounter -= Time.deltaTime;
-            if (shotCounter <= 0)
-            {
-                shotCounter = timeBetweenShots;
-                Instantiate(bullet.transform, firePoint.transform.position, firePoint.rotation);
-                BulletCount--;
-            }
-            if (BulletCount < 0)
-            {
-                BulletCount = 0;
-            }
-        }
-        else
-        {
-            shotCounter = 0;
-        }
-
-    }
+	}
 }
