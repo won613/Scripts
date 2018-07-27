@@ -11,6 +11,8 @@ public class Barricade : MonoBehaviour {
     public bool broken;
     Collider2D m_collider;
 
+
+	
     // Use this for initialization
     void Start () {
         myAnim = GetComponent<Animator>();
@@ -44,6 +46,10 @@ public class Barricade : MonoBehaviour {
         }
         
     }
+	public void ApplyDamage(float damage)
+	{
+		hp -= damage;
+	}
 
     void OnTriggerStay2D(Collider2D col)
     {
