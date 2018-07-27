@@ -18,6 +18,9 @@ public class Zombie_Boss : MonoBehaviour {
 	public float shootCd;
 	public float meleeCd;
 
+
+	//private bool isLeft;
+
 	private bool Attacking = false;
 	private float attackTimer = 0f;
 	private float FirstAttackCd = 0.3f; // firstattack running timer
@@ -34,6 +37,9 @@ public class Zombie_Boss : MonoBehaviour {
 
 
 	void Start() {
+
+		//isLeft = true;
+
 		shootCd = 1;
 		meleeCd = 1;
 		isMove = true;
@@ -48,13 +54,22 @@ public class Zombie_Boss : MonoBehaviour {
 		float between = Vector2.Distance(player.transform.position, transform.position);
 		if (transform.position.x > player.transform.position.x)
 		{// playe <---boss move
+
 			transform.localScale = new Vector2(1.3f, 1.8f);
 		}
 		else
 		{//player -->boss move
 			transform.localScale = new Vector2(-1.3f, 1.8f);
-		}
 
+			//isLeft = true;
+
+
+
+			transform.localScale = new Vector2(1.3f, 1.8f);
+			attackTrigger.transform.localScale = new Vector2(1.0f,1.8f);
+			attackTrigger2.transform.localScale = new Vector2(1.0f, 1.8f);
+		}
+		
 		if (isMove&&!Attacking&&!Shooting)
 		{
 			Move();

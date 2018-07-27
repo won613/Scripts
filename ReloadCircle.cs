@@ -6,28 +6,62 @@ using UnityEngine.UI;
 public class ReloadCircle : MonoBehaviour {
 
 	public Transform LoadingBar;
-	public Transform TextIndicator;
-	[SerializeField]
-	private float currentAmount;
-	[SerializeField]
-	private float speed;
 	public Weapon weapon;
-
 		
-	// Update is called once per frame
-	void Update () {
-		transform.position = Input.mousePosition;
-		if (currentAmount < 100)
-		{
-			currentAmount += speed * Time.deltaTime;
-			TextIndicator.GetComponent<Text>().text = ((int)currentAmount).ToString();
+    public Image radialProgressBar;
+    public Image center;
+    public PlayerController player;
+    private float staticreloadTime;
 
-		}
-		else
-		{
-			TextIndicator.GetComponent<Text>().text = "DONE!";
-		}
-		LoadingBar.GetComponent<Image>().fillAmount = currentAmount / 100;
-		
-	}
+    void Start()
+    {
+       
+    }
+
+    void Update()
+    {
+        transform.position = Input.mousePosition;
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        switch (player.whatGun)
+        {
+            case 0:
+                weapon = GameObject.Find("pistol").GetComponent<Weapon>();
+                staticreloadTime = weapon.reloadtime;
+                LoadingBar.GetComponent<Image>().fillAmount = weapon.reloadStart / staticreloadTime;
+                if (weapon.reloadcheck)
+                {
+                    Cursor.visible = false;
+                    radialProgressBar.enabled = true;
+                    center.enabled = true;
+                }
+                else
+                {
+                    Cursor.visible = true;
+                    radialProgressBar.enabled = false;
+                    center.enabled = false;
+                }
+                break;
+            case 1:
+                player.mp5.SetActive(true);
+                weapon = GameObject.Find("mp5").GetComponent<Weapon>();
+                staticreloadTime = weapon.reloadtime;
+                LoadingBar.GetComponent<Image>().fillAmount = weapon.reloadStart / staticreloadTime;
+                if (weapon.reloadcheck)
+                {
+                    Cursor.visible = false;
+                    radialProgressBar.enabled = true;
+                    center.enabled = true;
+                }
+                else
+                {
+                    Cursor.visible = true;
+                    radialProgressBar.enabled = false;
+                    center.enabled = false;
+                }
+                break;
+            default:
+                break;
+        }   
+    }
+
 }
